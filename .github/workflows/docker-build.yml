@@ -1,4 +1,4 @@
-name: Docker Build and Push
+name: Docker Build and GitOps Update
 
 on:
   push:
@@ -30,3 +30,20 @@ jobs:
         tags: |
           ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest
           ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:${{ github.sha }}
+
+    - name: Checkout GitOps repo
+      uses: actions/checkout@v2
+      with:
+        repository: plentifullee/gitops
+        token: ${{ secrets.GITOPS_PAT }}
+        path: gitops
+
+    - name: Update image tag in GitOps repo
+      run: |
+        cd gitops/app
+        sed -i "s|image: .*/flask-app:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:${{ github.sha }}|" flask.yaml
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+        git add flask.yaml
+        git commit -m "Update flask-app image to ${{ github.sha }}"
+        git push
