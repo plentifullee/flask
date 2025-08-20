@@ -12,6 +12,7 @@ build/
 develop-eggs/
 dist/
 eggs/
+lib/
 *.egg-info/
 .installed.cfg
 *.egg
