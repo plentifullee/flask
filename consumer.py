@@ -6,7 +6,7 @@ def main():
     # Create Kafka consumer
     consumer = KafkaConsumer(
         topic,
-        bootstrap_servers=['192.168.10.105:9092'],
+        bootstrap_servers=['localhost:9092'],
         auto_offset_reset='earliest',  # Start reading from the beginning of the topic
         enable_auto_commit=True,
         group_id='my-group',  # Consumer group ID

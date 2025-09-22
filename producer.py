@@ -9,7 +9,7 @@ def json_serializer(data):
 def main():
     # Create Kafka producer
     producer = KafkaProducer(
-        bootstrap_servers=['192.168.10.105:9092'],
+        bootstrap_servers=['localhost:9092'],
         value_serializer=json_serializer
     )
 
